@@ -1,4 +1,9 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  Injectable,
+  MethodNotAllowedException,
+  NotFoundException,
+} from '@nestjs/common';
 import { ReturnModelType } from '@typegoose/typegoose';
 import { InjectModel } from 'nestjs-typegoose';
 import { Product } from '../model/product.model';
@@ -14,13 +19,18 @@ export class ProductService {
     return await this.productModel.find().exec();
   }
 
-  public async reduce_quantity(id: string): Promise<void> {
+  public async reduce_quantity(id: string): Promise<Product> {
     const updated = await this.productModel.findById(id).exec();
+    if (updated === null) {
+      throw new NotFoundException('product not found');
+    }
     if (updated.quantity == 0) {
-      throw new HttpException('can t buy this product for the moment', 400);
+      throw new MethodNotAllowedException(
+        'can t buy this product for the moment',
+      );
     } else {
       updated.quantity -= 1;
-      updated.save();
+      return await updated.save();
     }
   }
 }
