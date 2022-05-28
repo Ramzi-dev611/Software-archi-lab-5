@@ -33,4 +33,12 @@ export class ProductService {
       return await updated.save();
     }
   }
+
+  public async findById(id: string): Promise<Product> {
+    const product = await this.productModel.findById(id).exec();
+    if (product == null) {
+      throw new NotFoundException('Product not found');
+    }
+    return product;
+  }
 }

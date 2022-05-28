@@ -30,4 +30,11 @@ export class ProductController {
   public async getAllBoughtProducts(@Payload() customer_id: string) {
     return await this.buyService.getBoughtProducts(customer_id);
   }
+
+  @MessagePattern('productSubscription')
+  public async subscribeForProductOutOfStock(
+    @Payload() subscriptionDetails: CreatePurchaseDto,
+  ): Promise<{ message: string }> {
+    return await this.buyService.subscribeForProduct(subscriptionDetails);
+  }
 }
