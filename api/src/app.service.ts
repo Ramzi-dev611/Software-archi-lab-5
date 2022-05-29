@@ -1,7 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
+import { CreatePurchaseDto } from './dto/create-purchase.dto';
 import { Product } from './dto/product.dto';
+import { Purchase } from './dto/purchase.dto';
 
 @Injectable()
 export class AppService {
@@ -19,5 +21,9 @@ export class AppService {
       { cmd: 'BoughtProducts' },
       customer_id,
     );
+  }
+
+  public buyProducts(payload: CreatePurchaseDto): Observable<Purchase> {
+    return this.customerServiceClient.send({ cmd: 'buyProduct' }, payload);
   }
 }

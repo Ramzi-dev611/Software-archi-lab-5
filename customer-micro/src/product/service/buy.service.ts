@@ -16,6 +16,7 @@ export class BuyService {
 
   public async buyProduct(buyDetails: CreatePurchaseDto): Promise<Purchase> {
     const { product_id } = buyDetails;
+    console.log(product_id);
     await this.productService.reduce_quantity(product_id);
     return await this.purchaseService.save(buyDetails);
   }

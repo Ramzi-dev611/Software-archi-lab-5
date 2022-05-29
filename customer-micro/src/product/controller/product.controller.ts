@@ -21,7 +21,7 @@ export class ProductController {
 
   @MessagePattern({ cmd: 'buyProduct' })
   public async buyProduct(
-    @Payload() buyDetails: CreatePurchaseDto,
+    buyDetails: CreatePurchaseDto,
   ): Promise<{ message: string; purchase: Purchase }> {
     const purchase: Purchase = await this.buyService.buyProduct(buyDetails);
     return { message: 'purchase made successfully', purchase };
@@ -36,7 +36,7 @@ export class ProductController {
 
   @MessagePattern({ cmd: 'productSubscription' })
   public async subscribeForProductOutOfStock(
-    @Payload() subscriptionDetails: CreatePurchaseDto,
+    @Payload() subscriptionDetails,
   ): Promise<{ message: string }> {
     return await this.buyService.subscribeForProduct(subscriptionDetails);
   }

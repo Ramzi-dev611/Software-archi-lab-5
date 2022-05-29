@@ -12,7 +12,9 @@ export class PurchaseService {
   ) {}
 
   public async save(createPurchaseDto: CreatePurchaseDto): Promise<Purchase> {
-    const createdPurchase = new this.purchaseModel(createPurchaseDto);
+    const { customer_id, product_id } = createPurchaseDto;
+    const purchase: Purchase = new Purchase(customer_id, product_id);
+    const createdPurchase = new this.purchaseModel(purchase);
     return await createdPurchase.save();
   }
 
