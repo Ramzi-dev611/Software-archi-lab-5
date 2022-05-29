@@ -20,4 +20,9 @@ export class AppController {
   public buyProducts(@Body() payload: CreatePurchaseDto) {
     return this.appService.buyProducts(payload);
   }
+
+  @Post('product/subscribe')
+  public subscribeForProduct(@Body() payload: CreatePurchaseDto) {
+    return this.appService.subscribeForProduct(payload);
+  }
 }

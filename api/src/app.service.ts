@@ -23,6 +23,15 @@ export class AppService {
     );
   }
 
+  public subscribeForProduct(
+    payload: CreatePurchaseDto,
+  ): Observable<{ message: string }> {
+    return this.customerServiceClient.send(
+      { cmd: 'productSubscription' },
+      payload,
+    );
+  }
+
   public buyProducts(payload: CreatePurchaseDto): Observable<Purchase> {
     return this.customerServiceClient.send({ cmd: 'buyProduct' }, payload);
   }
