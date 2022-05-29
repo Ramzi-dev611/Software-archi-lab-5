@@ -9,7 +9,7 @@ This is an api build to create a microservices based application that allows the
 * Customers can subscribe for products that are out of stock so that they get an email notifying them when products are back on stock
 
 ## Architecture (customer micro-service wise)
-![Architecture](architecture.PNG)
+![Architecture](./architecture.PNG)
 
 1- the api sends a TCP request to the micro service for the list of available products 
 
