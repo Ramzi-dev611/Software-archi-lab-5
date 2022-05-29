@@ -12,13 +12,19 @@ export class PurchaseService {
   ) {}
 
   public async save(createPurchaseDto: CreatePurchaseDto): Promise<Purchase> {
-    const createdPurchase = new this.purchaseModel(createPurchaseDto);
+    const { customer_id, product_id } = createPurchaseDto;
+    const purchase: Purchase = new Purchase(customer_id, product_id);
+    const createdPurchase = new this.purchaseModel(purchase);
     return await createdPurchase.save();
   }
 
   public async findPurchasesByCustomer(
     customer_id: string,
   ): Promise<Purchase[]> {
-    return await this.purchaseModel.find({ customer_id }).exec();
+    const purchases: Purchase[] = await this.purchaseModel
+      .find({ customer_id })
+      .exec();
+    console.log(purchases);
+    return purchases;
   }
 }

@@ -13,21 +13,31 @@ export class ProductController {
     private readonly buyService: BuyService,
   ) {}
 
-  @MessagePattern('products')
+  @MessagePattern({ cmd: 'products' })
   public async getAllProducts(): Promise<Product[]> {
-    return await this.productService.findAll();
+    const products: Product[] = await this.productService.findAll();
+    return products;
   }
 
-  @MessagePattern('buyProduct')
+  @MessagePattern({ cmd: 'buyProduct' })
   public async buyProduct(
-    @Payload() buyDetails: CreatePurchaseDto,
+    buyDetails: CreatePurchaseDto,
   ): Promise<{ message: string; purchase: Purchase }> {
     const purchase: Purchase = await this.buyService.buyProduct(buyDetails);
     return { message: 'purchase made successfully', purchase };
   }
 
-  @MessagePattern('BoughtProducts')
-  public async getAllBoughtProducts(@Payload() customer_id: string) {
-    return await this.buyService.getBoughtProducts(customer_id);
+  @MessagePattern({ cmd: 'BoughtProducts' })
+  public async getAllBoughtProducts(
+    @Payload() payload: { customer_id: string },
+  ) {
+    return await this.buyService.getBoughtProducts(payload.customer_id);
+  }
+
+  @MessagePattern({ cmd: 'productSubscription' })
+  public async subscribeForProductOutOfStock(
+    @Payload() subscriptionDetails,
+  ): Promise<{ message: string }> {
+    return await this.buyService.subscribeForProduct(subscriptionDetails);
   }
 }
