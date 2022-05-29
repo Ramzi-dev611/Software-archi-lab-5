@@ -25,9 +25,7 @@ export class BuyService {
       customer_id,
     );
     const productIds = purchases.map((purchase) => purchase.product_id);
-    return (await this.productService.findAll()).filter(
-      (product) => product._id in productIds,
-    );
+    return await this.productService.findAllByIds(productIds);
   }
 
   public async subscribeForProduct(

@@ -19,6 +19,10 @@ export class ProductService {
     return await this.productModel.find().exec();
   }
 
+  public async findAllByIds(ids: string[]): Promise<Product[] | null> {
+    return await this.productModel.find({ _id: { $in: ids } }).exec();
+  }
+
   public async reduce_quantity(id: string): Promise<Product> {
     const updated = await this.productModel.findById(id).exec();
     if (updated === null) {

@@ -5,9 +5,9 @@ export class Purchase {
   @prop({ required: true, type: mongoose.Types.ObjectId })
   _id: string;
 
-  @prop({ required: true, type: mongoose.Types.ObjectId })
+  @prop({ required: true, type: String })
   product_id: string;
 
-  @prop({ required: true, type: mongoose.Types.ObjectId })
+  @prop({ required: true, type: String })
   customer_id: string;
 }

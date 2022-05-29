@@ -28,8 +28,10 @@ export class ProductController {
   }
 
   @MessagePattern({ cmd: 'BoughtProducts' })
-  public async getAllBoughtProducts(@Payload() customer_id: string) {
-    return await this.buyService.getBoughtProducts(customer_id);
+  public async getAllBoughtProducts(
+    @Payload() payload: { customer_id: string },
+  ) {
+    return await this.buyService.getBoughtProducts(payload.customer_id);
   }
 
   @MessagePattern({ cmd: 'productSubscription' })

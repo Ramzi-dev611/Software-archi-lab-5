@@ -19,6 +19,10 @@ export class PurchaseService {
   public async findPurchasesByCustomer(
     customer_id: string,
   ): Promise<Purchase[]> {
-    return await this.purchaseModel.find({ customer_id }).exec();
+    const purchases: Purchase[] = await this.purchaseModel
+      .find({ customer_id })
+      .exec();
+    console.log(purchases);
+    return purchases;
   }
 }
