@@ -45,4 +45,19 @@ export class ProductService {
     }
     return product;
   }
+
+  public async save(newProduct: Product): Promise<Product> {
+    const response = new this.productModel(newProduct);
+    return await response.save();
+  }
+
+  public async update(id: string, product: Product): Promise<Product> {
+    const response = await this.productModel.findById(id).exec();
+    response.name = product.name != null && product.name;
+    response.description = product.description != null && product.description;
+    response.price = product.price != null && product.price;
+    response.quantity = product.quantity != null && product.quantity;
+
+    return await response.save();
+  }
 }

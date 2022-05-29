@@ -13,7 +13,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
     TypegooseModule.forFeature([Product, Purchase]),
     ClientsModule.register([
       {
-        name: 'SUBSCRIPTION',
+        name: 'REDISCLIENT',
         transport: Transport.REDIS,
         options: {
           host: 'localhost',

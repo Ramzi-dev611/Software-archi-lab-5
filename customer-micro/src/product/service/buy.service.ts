@@ -11,13 +11,14 @@ export class BuyService {
   constructor(
     private readonly purchaseService: PurchaseService,
     private readonly productService: ProductService,
-    @Inject('SUBSCRIPTION') private readonly redisClient: ClientProxy,
+    @Inject('REDISCLIENT') private readonly redisClient: ClientProxy,
   ) {}
 
   public async buyProduct(buyDetails: CreatePurchaseDto): Promise<Purchase> {
     const { product_id } = buyDetails;
     console.log(product_id);
     await this.productService.reduce_quantity(product_id);
+    this.redisClient.emit('buyProduct', buyDetails);
     return await this.purchaseService.save(buyDetails);
   }
 
@@ -36,7 +37,7 @@ export class BuyService {
     const product: Product = await this.productService.findById(product_id);
     if (product.quantity > 0) {
       throw new MethodNotAllowedException(
-        'can t buy this product for the moment',
+        'can t subscribe for this product for the moment',
       );
     }
     this.redisClient.emit('subscription', subscriptionDetails);
