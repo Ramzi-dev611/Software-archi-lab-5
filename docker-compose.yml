@@ -1,0 +1,40 @@
+version: '3.7'
+
+services:
+  api:
+    container_name: API
+    build:
+      context: ./api
+    volumes:
+    - ./api:/usr/src/app
+    ports:
+    - 3000:3000
+    command: npm run start:dev
+    networks:
+      - webnet
+    depends_on:
+      - micro-service
+      - redis
+  redis:
+    container_name: redis
+    image: 'redis:alpine'
+    command:
+      - redis-server
+    networks:
+      - webnet
+    ports:
+      - 6379:6379
+    volumes:
+      - $PWD/redis-data:/var/lib/redis
+      - $PWD/redis.conf:/usr/local/etc/redis/redis.conf
+  micro-service:
+    container_name: customer-microservice
+    build:
+      context: ./customer-micro
+    volumes:
+      - ./customer-micro:/usr/src/app
+    command: npm run start:dev
+    networks:
+      - webnet
+networks:
+  webnet:
